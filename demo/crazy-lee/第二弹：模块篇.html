@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>模块篇</title>
+</head>
+<body ng-app="demo">
+    <div id="demo1" ng-controller="demoCtrl">
+        <button type="button" ng-click="test()">DEMO</button>
+    </div>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular.js"></script>
+<script>
+    var demo = angular.module('demo', []).controller('demoCtrl', function ($scope) {
+        $scope.test = function () {
+            alert('demo');
+        }
+    });
+
+//    angular.element(document).ready(function () {
+//        angular.bootstrap(document.getElementById("demo1"), ["demo"]);
+//    });
+</script>
+</body>
+</html>
