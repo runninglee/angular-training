@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>控制器篇</title>
+</head>
+<body ng-app="demo">
+<div ng-controller="demoCtrl">
+    <button type="button" ng-click="run()">{{message}}</button>
+</div>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular.js"></script>
+<script>
+    var demo = angular.module('demo', []).controller('demoCtrl', function ($scope, $timeout) {
+        $scope.message = 'God Job';
+
+        $scope.run = function () {
+            alert($scope.message);
+        }
+
+        $scope.running = function () {
+            $timeout(function () {
+                $scope.message = 'Prefect Job'
+            }, 2000);
+        }
+
+        $scope.running();
+    });
+</script>
+</body>
+</html>
