@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>初识Angular JS</title>
+</head>
+<body ng-app="demo">
+<div ng-controller="DemoCtrl" ng-cloak>
+    <h3>传说中的双向绑定：</h3>
+    <p class="ng-cloak">{{message}}</p>
+    <input type="text" ng-model="message" ng-change="change()" ng-keyup="keyup($event)"/>
+    <dl>
+        <dt>关键词：</dt>
+        <dd> > 双向绑定(模型，视图)</dd>
+        <dd> > ng-app</dd>
+        <dd> > 事件监听$event</dd>
+    </dl>
+</div>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular.js"></script>
+<script type="text/javascript">
+    var demo = angular.module('demo', []).controller('DemoCtrl', function ($scope) {
+
+        $scope.message = 'Hello World';
+
+        $scope.change = function () {
+            console.log('change');
+        }
+        $scope.keyup = function (e) {
+            console.log(e);
+        };
+    });
+</script>
+</body>
+</html>
