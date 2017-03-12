@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>过滤器</title>
+</head>
+<body ng-app="app">
+<div ng-controller="DemoCtrl">
+    <p>DemoCtrl</p>
+    <hr>
+    <p>{{message|dot}}</p>
+    <hr>
+    <p ng-bind="message|number|dot"></p>
+</div>
+<hr>
+<div ng-controller="AppCtrl">
+    <p>AppCtrl</p>
+    <hr>
+    <p>{{name|line}}</p>
+    <hr>
+    <p>{{name}}</p>
+    <hr>
+    <p ng-bind="name|line"></p>
+    <hr>
+    <p ng-bind="new_name"></p>
+</div>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular.js"></script>
+<script>
+    var app = angular.module('app', []).controller('DemoCtrl', function ($scope) {
+        $scope.message = 123456789;
+    }).filter('dot', function () {
+        return function (val) {
+            return '¥' + val + '元';
+        }
+    }).controller('AppCtrl', function ($scope, $filter, lineFilter) {
+        $scope.name = $filter('line')('Hui Lee');
+        $scope.new_name = lineFilter('Hui Lee');
+    }).filter('line', function () {
+        return function (val) {
+            if (angular.isString(val)) {
+                return val.replace(' ', '-');
+            } else {
+                return val;
+            }
+        }
+    });
+</script>
+</body>
+</html>
