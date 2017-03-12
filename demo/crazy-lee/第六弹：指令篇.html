@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>指令篇</title>
+    <style>
+        .rabbit-select {
+            position: relative;
+        }
+
+        .rabbit-select-content {
+            margain: 0;
+            width: 100px;
+            border: 1px solid #dcdcdc;
+        }
+
+        .rabbit-select-content dd {
+            margin: 0;
+        }
+
+        .rabbit-select-content dd ul {
+            padding: 0;
+            list-style: none;
+            margin: 0;
+        }
+
+        .rabbit-select-content dd ul li {
+            height: 22px;
+            line-height: 22px;
+        }
+    </style>
+</head>
+<body ng-app="app">
+<div ng-controller="DemoCtrl">
+    <p ng-bind="message"></p>
+    <hr>
+    <prefix name="name" callback="change()"></prefix>
+    <hr>
+    <rabbit-select category="category" send="send(params)"></rabbit-select>
+</div>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular.js"></script>
+<script type="text/ng-template" id="rabbit-select.html">
+    <div class="rabbit-select">
+        <dl class="rabbit-select-content">
+            <dt ng-click="show()">{{category}}</dt>
+            <dd ng-if="is_show">
+                <ul>
+                    <li ng-repeat="list in lists track by $index" ng-click="getKey(list)">{{list.key}}</li>
+                </ul>
+            </dd>
+        </dl>
+    </div>
+</script>
+<script>
+    var app = angular.module('app', []).controller('DemoCtrl', function ($scope) {
+
+        $scope.message = 'Hello World';
+
+        $scope.name = 'Are you ready';
+
+        $scope.change = function () {
+            // console.log('change');
+        }
+
+        $scope.category = "美国";
+
+        $scope.send = function (params) {
+            $scope.category = params.key;
+        }
+
+    }).directive('prefix', function () {
+        return {
+            restrict: 'AE',
+            scope: {
+                name: '=',
+                callback: '&'
+            },
+            controller: function ($scope, $timeout) {
+                $timeout(function () {
+                    $scope.$apply(function () {
+                        $scope.name = "go";
+                    });
+                }, 1000);
+            },
+            link: function (scope, element, attrs) {
+                // DOM操作
+                element.text(scope[attrs.name] + "?");
+
+                //自动回调
+                scope.callback();
+            }
+        }
+    }).directive('rabbitSelect', function () {
+        return {
+            restrict: 'EA',
+            scope: {
+                category: '=',
+                lists: '@',
+                send: '&'
+            },
+            transclude:true,
+            templateUrl: 'rabbit-select.html',
+            controller: function ($scope) {
+                $scope.is_show = false;
+                $scope.lists = [{val: 0, key: '中国'}, {val: 1, key: '美国'}, {val: 2, key: '英国'}];
+                $scope.show = function () {
+                    $scope.is_show = !$scope.is_show;
+                };
+                $scope.getKey = function (list) {
+                    $scope.is_show = !$scope.is_show;
+                    $scope.category = list.key;
+                    $scope.send({params:list});
+                }
+            }
+        };
+    });
+</script>
+</body>
+</html>
