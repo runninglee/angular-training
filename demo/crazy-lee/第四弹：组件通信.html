@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>组件通信</title>
+</head>
+<body ng-app="app">
+<div id="root" ng-controller="RootCtrl">
+    <p ng-bind="message"></p>
+    <button type="button" ng-click="root()">Root</button>
+    <hr>
+    <div ng-controller="FirstCtrl">
+        <p ng-bind="message"></p>
+        <button type="button" ng-click="first()">First</button>
+    </div>
+</div>
+<hr>
+<div id="other" ng-controller="OtherCtrl">
+    <p ng-bind="message"></p>
+    <button type="button" ng-click="other()">Other</button>
+    <hr>
+</div>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular.js"></script>
+<script>
+    var app = angular.module('app', []).controller('RootCtrl', function ($scope, $rootScope) {
+        $scope.message = 'root';
+
+        $scope.root = function () {
+            $scope.message = 'click root';
+            $scope.$broadcast('send', {
+                me: 'broadcast message'
+            });
+        }
+
+        $scope.$on('root', function (e, p) {
+            $scope.message = 'Self:' + p.me;
+        });
+
+        $rootScope.$on('root', function (e, p) {
+            $scope.message = 'Other:' + p.me;
+        });
+    }).controller('FirstCtrl', function ($scope) {
+        $scope.message = 'first root';
+
+        $scope.first = function () {
+            $scope.message = 'click first root';
+            $scope.$emit('root', {me: 'first message'});
+        }
+
+        $scope.$on('send', function (e, p) {
+            $scope.message = p.me;
+        })
+    }).controller('OtherCtrl', function ($scope) {
+        $scope.message = 'Other Message';
+
+        $scope.other = function () {
+            $scope.message = 'click other message';
+            $scope.$emit('root', {me: 'other message'});
+        }
+    });
+</script>
+</body>
+</html>
