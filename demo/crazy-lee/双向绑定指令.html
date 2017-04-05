@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>双向绑定指令</title>
+</head>
+<body ng-app="demo">
+<div ng-controller="DemoCtrl" ng-cloak>
+    <input type="text" ng-model="selected.name"/>
+    <hr>
+    <me items="items" selected="selected"></me>
+    <hr>
+    <button type="button" ng-click="get()">Button</button>
+</div>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular.js"></script>
+<script type="text/javascript">
+    var demo = angular.module('demo', []).controller('DemoCtrl', function ($scope) {
+
+        $scope.selected = {id: 'js', name: 'JS'};
+
+        $scope.get = function () {
+            console.log($scope.selected);
+        };
+
+        $scope.items = [
+            {id: 'php', name: 'PHP'},
+            {id: 'js', name: 'JS'},
+            {id: 'python', name: 'python'},
+            {id: 'java', name: 'Java'}
+        ];
+
+
+    }).directive('me', function ($compile) {
+        return {
+            restrict: 'AE',
+            scope: {
+                options: '=',
+                items: '=',
+                selected: '=',
+                remote_url: '='
+            },
+            controller: function ($scope, $http) {
+                // Items
+                // [{key:0,val:'me'},{key:0,val:'me'}]
+                if (scope.remote_url != undefined) {
+                    $http.get(scope.remote_url).then(function (result) {
+                        $scope.items = result.data;
+                    });
+                } else {
+                    $scope.items = $scope.options;
+                }
+
+                $scope.get = function (item) {
+                    if ($scope.selected.id == item.id) {
+                        return;
+                    } else {
+                        $scope.selected = item;
+                    }
+                };
+
+                $scope.$watch('selected', function () {
+                    if ($scope.selected.id === 'js') {
+                        console.log('JJJJJJSSSSSS');
+                    }
+                });
+            },
+            templateUrl: 'running-lee.html',
+            link: function (scope, element, attrs) {
+            }
+        };
+    });
+</script>
+
+<script type="text/ng-template" id="running-lee.html">
+    <ul>
+        <li ng-repeat="item in items" ng-click="get(item)">{{item.name}}</li>
+    </ul>
+</script>
+
+</body>
+</html>

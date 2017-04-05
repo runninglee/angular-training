@@ -34,7 +34,7 @@
 <div ng-controller="DemoCtrl">
     <p ng-bind="message"></p>
     <hr>
-    <prefix name="name" callback="change()"></prefix>
+    <prefix name="name" callback="change()" ng-model='name'></prefix>
     <hr>
     <rabbit-select category="category" send="send(params)"></rabbit-select>
 </div>
