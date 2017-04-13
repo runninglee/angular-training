@@ -3,26 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <title>下拉列表</title>
+    <style>
+        .rl-dropdown {
+            position: relative;
+            width: 120px;
+        }
+        .rl-dropdown-header{
+            position: absolute;
+            height: 25px;
+            line-height: 25px;
+            border: 1px solid #666;
+        }
+        .rl-dropdown-header span:first-child{
+            width: 90px;
+            height: 25px;
+            line-height: 25px;
+            display: inline-block;
+            text-indent: 8px;
+        }
+        .rl-dropdown-header span:last-child{
+            width: 30px;
+            height: 25px;
+            line-height: 25px;
+            display: inline-block;
+        }
+
+        .rl-dropdown-body{
+            width: 118px;
+            position: absolute;
+            top:26px;
+            border: 1px solid #666;
+        }
+
+        .rl-dropdown-body ul{
+            margin: 0;
+            padding:8px;
+            list-style: none;
+        }
+
+    </style>
 </head>
-<body ng-app="App">
-<rl-dropdown ng-model="message" placeholder="请选择" disabled="disabled" clearable="clearable"></rl-dropdown>
+<body ng-app="App" ng-controller="DemoCtrl">
+<rl-dropdown ng-model="message" placeholder="placeholder" disabled="disabled" clearable="clearable"></rl-dropdown>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular.js"></script>
 <script type="text/ng-template" id="rl-dropdown.html">
     <div class="rl-dropdown">
         <div class="rl-dropdown-header">
-            <input type="text" placeholder="dropdown.placeholder">
-            <span ng-click=""></span>
+            <span placeholder="{{dropdown.placeholder}}">流通中</span>
+            <span ng-click="clear()"></span>
         </div>
         <div class="rl-dropdown-body">
             <ul>
-                <li></li>
+                <li>不限</li>
+                <li>不限</li>
+                <li>不限</li>
+                <li>不限</li>
             </ul>
         </div>
     </div>
 </script>
 <script>
     var app = angular.module('App', []).controller('DemoCtrl', function ($scope) {
-
+        $scope.placeholder = '请选择...';
 
     }).directive('rlDropdown', function () {
         return {
@@ -32,6 +74,11 @@
                 placeholder: '=',
                 disabled: '=',
                 clearable: '='
+            },
+            templateUrl: 'rl-dropdown.html',
+            controller: function ($scope) {
+                $scope.dropdown = {};
+                $scope.dropdown.placeholder = $scope.placeholder;
             },
             link: function (scope, element, attrs) {
                 return 'me';
