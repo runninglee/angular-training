@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>下拉列表</title>
+</head>
+<body ng-app="App">
+<rl-dropdown ng-model="message" placeholder="请选择" disabled="disabled" clearable="clearable"></rl-dropdown>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular.js"></script>
+<script type="text/ng-template" id="rl-dropdown.html">
+    <div class="rl-dropdown">
+        <div class="rl-dropdown-header">
+            <input type="text" placeholder="dropdown.placeholder">
+            <span ng-click=""></span>
+        </div>
+        <div class="rl-dropdown-body">
+            <ul>
+                <li></li>
+            </ul>
+        </div>
+    </div>
+</script>
+<script>
+    var app = angular.module('App', []).controller('DemoCtrl', function ($scope) {
+
+
+    }).directive('rlDropdown', function () {
+        return {
+            restrict: 'AE',
+            scope: {
+                message: '=',
+                placeholder: '=',
+                disabled: '=',
+                clearable: '='
+            },
+            link: function (scope, element, attrs) {
+                return 'me';
+            }
+        }
+    });
+</script>
+</body>
+</html>
