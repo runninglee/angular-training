@@ -169,7 +169,6 @@ CKEDITOR.editorConfig = function (config) {
 
 你会了吗？看到这，你可以肆无忌惮的封装了，Angular,Vue, React喜欢那个来那个！
 
-
-#License
+## License
 
 [MIT License](https://opensource.org/licenses/mit-license.html). ©  [Running Lee](mailto:lihui870920@gmail.com)
