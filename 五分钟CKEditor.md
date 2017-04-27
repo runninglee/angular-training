@@ -46,18 +46,16 @@
 
 1. 开启上传图片功能
 
-修改ckeditor/plugins/image/dialogs/image.js中的hidden值
+屏蔽掉'image:Upload'
 
 `
-id:'Upload',hidden:true
+config.removeDialogTabs = "link:upload"；
 `
 
 2. 去掉定义预览文本
 
-去掉ckeditor/plugins/image/dialogs/image.js中的image_previewText默认值；
-
 `
-image_previewText || ""
+config.image_previewText = ""；
 `
 
 以上方式都是直接修改插件所为，建议通过修改配置
